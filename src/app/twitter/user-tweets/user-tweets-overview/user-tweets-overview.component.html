@@ -1,0 +1,17 @@
+<div class="jumbotron" id="user-overview">
+  <div *ngIf="userOverview">
+    <h3>{{userOverview.username}}</h3>
+    <h4>(Full Name)</h4>
+    <ul class="list-inline">
+    <li>
+      <b>{{userOverview.numberOfTweets}}</b> Tweets
+    </li>
+    <li>
+      <b>{{userOverview.numberOfFollowers}}</b> Followers
+    </li>
+    <li>
+      <b>{{userOverview.numberOfFollowing}}</b> Following
+    </li>
+    </ul>
+  </div>
+</div>
