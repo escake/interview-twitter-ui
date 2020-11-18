@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {AuthService} from "../../services/auth.service";
 
@@ -9,13 +9,24 @@ import {AuthService} from "../../services/auth.service";
   selector: 'app-login',
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   model: any = {username: '', password: ''};
   loading = false;
   incorrectCredentialsError = false;
+  infoMessage = '';
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private authService: AuthService) {
+  }
+
+  ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        if(params.registered =='true') {
+          this.infoMessage = 'Registration successful. You may log in.';
+        }
+      });
   }
 
   onSubmit(loginForm: NgForm): void {

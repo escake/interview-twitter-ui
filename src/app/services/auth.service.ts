@@ -1,7 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
+const ENDPOINT_BASE = '/api/auth';
 
 @Injectable()
 export class AuthService {
+
+  constructor(private http: HttpClient) {
+  }
 
   login(username: string, password: string) {
     const authToken = this.generateAuthToken(username, password);
@@ -42,5 +48,9 @@ export class AuthService {
   logout() {
     this.clearAuthToken();
     this.clearCredentials();
+  }
+
+  register(username: string, fullName: string, password: string) { //todo create dto
+    return this.http.post(ENDPOINT_BASE + '/register', {username, fullName, password});
   }
 }

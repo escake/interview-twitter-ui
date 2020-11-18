@@ -1,4 +1,5 @@
 ﻿<div class="col-md-6 col-md-offset-3">
+  <div *ngIf="infoMessage.length" class="alert alert-info">{{infoMessage}}</div>
   <h2>Login</h2>
   <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
     <div class="form-group">
@@ -20,5 +21,9 @@
       <button class="btn btn-primary">Login</button>
     </div>
     <div *ngIf="incorrectCredentialsError" class="alert alert-danger"></div>
+    <div>
+      <span class="text-muted">Not a member?</span>
+      <a [routerLink]="['/register']" routerLinkActive="active">Register.</a>
+    </div>
   </form>
 </div>
