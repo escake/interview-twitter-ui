@@ -10,6 +10,7 @@
         <li routerLinkActive="active"><a routerLink="tweets">Tweets</a>
         </li>
       </ul>
+      <div class="nav navbar-nav navbar-text navbar-right" *ngIf="getCurrentUser()" (click)="logout()"><a href="/">Logout</a></div>
     </div>
   </div>
 </nav>

@@ -1,5 +1,8 @@
 ﻿<div class="col-md-6 col-md-offset-3">
   <div *ngIf="infoMessage.length" class="alert alert-info">{{infoMessage}}</div>
+  <div *ngIf="loginUnsuccessfulError.error" class="alert alert-danger">
+    {{loginUnsuccessfulError.message}}
+  </div>
   <h2>Login</h2>
   <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
     <div class="form-group">
@@ -25,5 +28,5 @@
       <span class="text-muted">Not a member?</span>
       <a [routerLink]="['/register']" routerLinkActive="active">Register.</a>
     </div>
-  </form>
+  </form> 
 </div>

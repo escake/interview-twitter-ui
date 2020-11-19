@@ -11,6 +11,7 @@ import {LoginComponent} from "./login/login.component";
 import {AuthRoutingModule} from "./auth-routing.module";
 import { RegisterComponent } from './register/register.component';
 import { RegisterContainerComponent } from './register-container/register-container.component';
+import { LoginGuard } from './login.guard';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { RegisterContainerComponent } from './register-container/register-contai
     },
     AuthGuard,
     AuthService,
+    LoginGuard
   ],
   declarations: [
     LoginComponent,

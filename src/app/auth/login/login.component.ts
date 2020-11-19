@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {AuthService} from "../../services/auth.service";
+import { first } from 'rxjs/operators/first';
 
 @Component({
   moduleId: module.id,
@@ -12,11 +13,13 @@ import {AuthService} from "../../services/auth.service";
 export class LoginComponent implements OnInit {
   model: any = {username: '', password: ''};
   loading = false;
-  incorrectCredentialsError = false;
   infoMessage = '';
+  loginUnsuccessfulError = {error: false, message: ''};
+
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private cd: ChangeDetectorRef,
               private authService: AuthService) {
   }
 
@@ -31,14 +34,31 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginForm: NgForm): void {
     if (loginForm.valid) {
-      this.login();
+      this.login(loginForm);
     }
   }
 
-  login() {
+  login(loginForm: NgForm) {
     this.loading = true;
-    this.authService.login(this.model.username, this.model.password);
-    this.router.navigate(['/app/tweets']);
+    this.authService
+      .login(this.model.username, this.model.password)
+      .pipe(first())
+      .subscribe(
+        (authUser: {token: string, username: string}) => {
+          this.authService.setAuthToken(authUser.token);
+          this.authService.storeUsername(authUser.username);
+          this.router.navigate(['/app/tweets']);
+        },
+        (error) => {
+          this.handleUnsuccessfulLogin(loginForm, error);
+        }
+      );
+  }
+
+  private handleUnsuccessfulLogin(loginForm: NgForm, error: any) {
+    this.loginUnsuccessfulError = {error: true, message: 'Invalid credentials. ' + error.error.message};
+    loginForm.resetForm();
+    this.cd.detectChanges();
   }
 
   isFormSubmittedWithInvalidUsername(loginForm: NgForm): boolean {

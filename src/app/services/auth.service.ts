@@ -10,9 +10,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    const authToken = this.generateAuthToken(username, password);
-    this.setAuthToken(authToken);
-    this.storeUsername(username);
+    return this.http.post(ENDPOINT_BASE + '/login', {username, password});
   }
 
   getAuthToken(): string {
@@ -41,7 +39,7 @@ export class AuthService {
     return username ? username : null;
   }
 
-  private storeUsername(username: string) {
+  storeUsername(username: string) {
     localStorage.setItem("username", username);
   }
 
@@ -50,7 +48,7 @@ export class AuthService {
     this.clearCredentials();
   }
 
-  register(username: string, fullName: string, password: string) { //todo create dto
+  register(username: string, fullName: string, password: string) { 
     return this.http.post(ENDPOINT_BASE + '/register', {username, fullName, password});
   }
 }
